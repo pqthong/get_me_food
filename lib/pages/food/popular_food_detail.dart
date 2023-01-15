@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:give_me_food/controller/cart_controller.dart';
 import 'package:give_me_food/controller/popular_product_controller.dart';
+import 'package:give_me_food/pages/cart/cart_page.dart';
 import 'package:give_me_food/pages/home/main_food_page.dart';
 import 'package:give_me_food/utils/app_constants.dart';
 import 'package:give_me_food/utils/dimensions.dart';
@@ -9,6 +10,7 @@ import 'package:give_me_food/widgets/app_column.dart';
 import 'package:give_me_food/widgets/app_icon.dart';
 import 'package:give_me_food/widgets/expandable_text_widget.dart';
 
+import '../../routes/route_helper.dart';
 import '../../utils/colors.dart';
 import '../../widgets/big_text.dart';
 import '../../widgets/small_text.dart';
@@ -53,7 +55,7 @@ class PopularFoodDetail extends StatelessWidget {
                   GestureDetector(
                     child: AppIcon(icon: Icons.arrow_back_ios),
                     onTap: () {
-                      Get.to(() => MainFoodPage());
+                      Get.toNamed(RouteHelper.getInitial());
                     },
                   ),
                   GetBuilder<PopularProductController>(
@@ -62,15 +64,20 @@ class PopularFoodDetail extends StatelessWidget {
                       children: [
                         AppIcon(icon: Icons.shopping_cart_checkout_outlined),
                         popularProductController.totalItems >= 1
-                            ? Positioned(
-                                child: AppIcon(
-                                  icon: Icons.circle,
-                                  size: 20,
-                                  iconColor: Colors.transparent,
-                                  backgroundColor: AppColors.mainColor,
+                            ? GestureDetector(
+                                onTap: () {
+                                  Get.to(() => CartPage());
+                                },
+                                child: Positioned(
+                                  child: AppIcon(
+                                    icon: Icons.circle,
+                                    size: 20,
+                                    iconColor: Colors.transparent,
+                                    backgroundColor: AppColors.mainColor,
+                                  ),
+                                  right: 0,
+                                  top: 0,
                                 ),
-                                right: 0,
-                                top: 0,
                               )
                             : Container(),
                         popularProductController.totalItems >= 1
