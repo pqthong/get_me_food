@@ -16,6 +16,7 @@ class CartController extends GetxController {
   Map<int, CartModel> get items => _items;
 
   void addItem(ProductModel product, int quantity) {
+    print("add");
     var totalQuantity = 0;
     if (_items.containsKey(product.id)) {
       _items.update(product.id!, (value) {
@@ -27,7 +28,8 @@ class CartController extends GetxController {
             img: value.img,
             quantity: value.quantity! + quantity,
             isExist: true,
-            time: DateTime.now().toString());
+            time: DateTime.now().toString(),
+            product: product);
       });
       if (totalQuantity <= 0) {
         _items.remove(product.id);
@@ -42,13 +44,15 @@ class CartController extends GetxController {
               img: product.img,
               quantity: quantity,
               isExist: true,
-              time: DateTime.now().toString());
+              time: DateTime.now().toString(),
+              product: product);
         });
       } else {
         Get.snackbar("Item Count", "Please select quantity",
             backgroundColor: AppColors.mainColor, colorText: Colors.white);
       }
     }
+    update();
   }
 
   bool existInCart(ProductModel product) {
@@ -82,5 +86,13 @@ class CartController extends GetxController {
     return _items.entries.map((e) {
       return e.value;
     }).toList();
+  }
+
+  int get totalAmount {
+    var total = 0;
+    _items.forEach((key, value) {
+      total += value.quantity! * value.price!;
+    });
+    return total;
   }
 }

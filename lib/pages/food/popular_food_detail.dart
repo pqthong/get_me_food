@@ -18,8 +18,10 @@ import 'package:get/get.dart';
 
 class PopularFoodDetail extends StatelessWidget {
   int pageId;
+  final String page;
 
-  PopularFoodDetail({Key? key, required this.pageId}) : super(key: key);
+  PopularFoodDetail({Key? key, required this.pageId, required this.page})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -55,20 +57,26 @@ class PopularFoodDetail extends StatelessWidget {
                   GestureDetector(
                     child: AppIcon(icon: Icons.arrow_back_ios),
                     onTap: () {
-                      Get.toNamed(RouteHelper.getInitial());
+                      if (page == 'cartpage') {
+                        Get.toNamed(RouteHelper.getCartPage());
+                      } else {
+                        Get.toNamed(RouteHelper.getInitial());
+                      }
                     },
                   ),
                   GetBuilder<PopularProductController>(
                       builder: (popularProductController) {
-                    return Stack(
-                      children: [
-                        AppIcon(icon: Icons.shopping_cart_checkout_outlined),
-                        popularProductController.totalItems >= 1
-                            ? GestureDetector(
-                                onTap: () {
-                                  Get.to(() => CartPage());
-                                },
-                                child: Positioned(
+                    return GestureDetector(
+                      onTap: () {
+                        if (popularProductController.totalItems >= 1) {
+                          Get.toNamed(RouteHelper.getCartPage());
+                        }
+                      },
+                      child: Stack(
+                        children: [
+                          AppIcon(icon: Icons.shopping_cart_checkout_outlined),
+                          popularProductController.totalItems >= 1
+                              ? Positioned(
                                   child: AppIcon(
                                     icon: Icons.circle,
                                     size: 20,
@@ -77,22 +85,22 @@ class PopularFoodDetail extends StatelessWidget {
                                   ),
                                   right: 0,
                                   top: 0,
-                                ),
-                              )
-                            : Container(),
-                        popularProductController.totalItems >= 1
-                            ? Positioned(
-                                child: BigText(
-                                  text: popularProductController.totalItems
-                                      .toString(),
-                                  size: 12,
-                                  color: Colors.white,
-                                ),
-                                right: 4,
-                                top: 3,
-                              )
-                            : Container(),
-                      ],
+                                )
+                              : Container(),
+                          popularProductController.totalItems >= 1
+                              ? Positioned(
+                                  child: BigText(
+                                    text: popularProductController.totalItems
+                                        .toString(),
+                                    size: 12,
+                                    color: Colors.white,
+                                  ),
+                                  right: 4,
+                                  top: 3,
+                                )
+                              : Container(),
+                        ],
+                      ),
                     );
                   })
                 ],
