@@ -4,8 +4,10 @@ import 'package:give_me_food/pages/food/popular_food_detail.dart';
 import 'package:give_me_food/pages/food/recommended_food_detail.dart';
 import 'package:give_me_food/pages/home/home_page.dart';
 import 'package:give_me_food/pages/home/main_food_page.dart';
+import 'package:give_me_food/pages/splash/splash_page.dart';
 
 class RouteHelper {
+  static const String splashPage = "/splash-page";
   static const String initial = "/";
   static const String popularFood = "/popular-food";
   static const String recommendedFood = "/recommended-food";
@@ -19,8 +21,17 @@ class RouteHelper {
 
   static String getCartPage() => '$cartPage';
 
+  static String getSplashPage() => '$splashPage';
+
+
   static List<GetPage> routes = [
     GetPage(name: initial, page: () => HomePage()),
+    GetPage(
+        name: splashPage,
+        transition: Transition.fadeIn,
+        page: () {
+          return SplashScreen();
+        }),
     GetPage(
         name: popularFood,
         transition: Transition.fadeIn,
